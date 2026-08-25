@@ -1,0 +1,24 @@
+{
+  "name": "Ripfield Tests",
+  "tree": {
+    "$className": "DataModel",
+
+    "ReplicatedStorage": {
+      "Ripfield": {
+        "$path": "src"
+      },
+      "Tests": {
+        "$path": "tests"
+      },
+      "TestEZ": {
+        "$path": "build/TestEZ.rbxm"
+      }
+    },
+
+    "ServerScriptService": {
+      "RunTests": {
+        "$path": "tests/run.server.luau"
+      }
+    }
+  }
+}

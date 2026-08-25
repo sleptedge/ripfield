@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ripfield documentation
+    url: https://github.com/sleptedge/ripfield#readme
+    about: Check the official documentation for setup guidance and API usage before opening an issue.
