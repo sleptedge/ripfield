@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## 1.2.4 - 2026-08-26
+
+### Fixed
+
+- Numeric fields reject broken math results now instead of saving them and making the next callback
+  deal with the mess.
+- Negative opacity typed into the color picker clamps to zero. It used to quietly throw away the
+  minus sign, which was not very helpful.
+
 ## 1.2.3 - 2026-08-26
 
 ### Fixed

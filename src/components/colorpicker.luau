@@ -844,7 +844,7 @@ function ColorPicker:_buildPicker()
 
     -- alpha field: take the first number as a percent, clamp 0..100, else snap back
     self.window:ConnectFor(self, self.alphaInput.FocusLost, function()
-        local n = tonumber((self.alphaInput.Text:gsub("[^%d%.]", "")))
+        local n = tonumber(self.alphaInput.Text:match("[-+]?%d*%.?%d+"))
         if n then
             self:SetAlpha(clamp01(n / 100))
         else
