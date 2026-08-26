@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## 1.2.3 - 2026-08-26
+
+### Fixed
+
+- Hover descriptions actually show up now. Used a theme color that didn't exist, somehow missed
+  that because the test fake was too forgiving.
+- Tooltips line up with the cursor when Roblox's top bar inset is involved and disappear when the
+  window is hidden instead of hanging around awkwardly.
+
 ## 1.2.2 - 2026-08-26
 
 ### Added

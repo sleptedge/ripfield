@@ -170,9 +170,27 @@ return function()
             window.hidden = false
             window.animating = false
             actionDropdown.interact.MouseEnter:Fire()
-            expect(window._hoverDescription).to.be.ok()
+            local hoverDescription = window._hoverDescription
+            expect(hoverDescription).to.be.ok()
+            expect(hoverDescription.BackgroundColor3).to.equal(window.theme.ElementGradient.Keypoints[1].Value)
+            local hoverLabel
+            for _, child in hoverDescription:GetChildren() do
+                if child:IsA("TextLabel") then
+                    hoverLabel = child
+                    break
+                end
+            end
+            expect(hoverLabel).to.be.ok()
+            expect(hoverLabel.Text).to.equal("Pick, then act")
             actionDropdown.interact.MouseLeave:Fire()
             expect(window._hoverDescription).to.equal(nil)
+
+            actionDropdown.interact.MouseEnter:Fire()
+            expect(window._hoverDescription).to.be.ok()
+            window:Hide()
+            expect(window._hoverDescription).to.equal(nil)
+            window.hidden = false
+            window.animating = false
 
             -- a user icon may be a rbxassetid string, not just a bare number
             local stringIcon = first:CreateToggle({

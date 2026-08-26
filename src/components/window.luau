@@ -959,6 +959,11 @@ function Window:Hide()
         return
     end
 
+    if self._hoverDescription then
+        self:DestroySubtree(self._hoverDescription)
+        self._hoverDescription = nil
+    end
+
     -- drop out of search first so we grow back into the normal tab view on next show. tabList
     -- stays hidden here since the collapse hides it anyway; Show re-enables it.
     if self._searching then
@@ -2264,15 +2269,18 @@ function Window:_wireHoverDescription(element)
         end
 
         local mouse = variables.userInputService:GetMouseLocation()
+        if self.screenGui and self.screenGui.IgnoreGuiInset then
+            mouse -= variables.guiService:GetGuiInset()
+        end
         local frame = self:Create("Frame", {
             AutomaticSize = Enum.AutomaticSize.Y,
             Position = UDim2.fromOffset(mouse.X + 12, mouse.Y + 12),
             Size = UDim2.fromOffset(280, 0),
             BorderSizePixel = 0,
-            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+            BackgroundColor3 = firstColor(self.theme.ElementGradient),
             ZIndex = 200,
             Parent = self.screenGui,
-        }, { BackgroundColor3 = "ElementBackground" })
+        })
         self._hoverDescription = frame
         self:Create("UICorner", { CornerRadius = UDim.new(0, 8), Parent = frame })
         self:Create("UIStroke", {
