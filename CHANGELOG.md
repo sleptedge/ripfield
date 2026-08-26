@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 1.2.1 - 2026-08-26
+
+### Fixed
+
+- Controls added to groups on later tabs no longer stay transparent until the window is reopened.
+- Long dropdowns now use more of the available window height, and opening search recalculates the
+  list space instead of squeezing the options.
+
 ### Changed
 
 - Gave the whole interface a calmer, cleaner pass. Surfaces have more depth, corners are less

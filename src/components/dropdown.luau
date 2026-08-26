@@ -754,6 +754,7 @@ function Dropdown:_expandSearch()
     self._searchOpen = true
     self.searchInput.TextEditable = true
     self.searchInput.Interactable = true
+    self:_resizeToOptions()
 
     variables.tweenService
         :Create(
@@ -842,7 +843,10 @@ function Dropdown:_openHeight()
         end
     end
     local rows = n * 38 + math.max(0, n - 1) * 5 + 2
-    return math.min(180, 95 + rows)
+    local searchHeight = if self._searchOpen then searchExpandedHeight else searchCollapsedHeight
+    local viewportHeight = self.window.main.AbsoluteSize.Y
+    local maxHeight = if viewportHeight > 0 then math.clamp(math.floor(viewportHeight * 0.58), 180, 360) else 180
+    return math.min(maxHeight, 65 + searchHeight + rows)
 end
 
 function Dropdown:_open()

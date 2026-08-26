@@ -114,6 +114,16 @@ function Group:_add(componentName, properties)
     -- or they stay fully transparent
     if not self.window.hidden then
         element:_setShown(true, true)
+    elseif self.window.performanceMode then
+        -- Tab:_register prepares controls on hidden pages, but a group can be registered
+        -- before any of its children exist. Prepare children as they arrive as well.
+        local root = self
+        while root.__type == "Group" do
+            root = root.tab
+        end
+        if self.window.selectedTab ~= root then
+            element:_setShown(true, false)
+        end
     end
 
     return element
