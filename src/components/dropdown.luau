@@ -97,6 +97,8 @@ function Dropdown.new(tab, properties)
         name = properties.name or properties.Name or "Dropdown",
         icon = properties.icon or properties.Icon,
         description = properties.description or properties.Description,
+        hoverdescription = properties.hoverdescription or properties.HoverDescription,
+        actions = properties.actions or properties.Actions or {},
         forgetState = properties.forgetState or properties.ForgetState or tab.forgetState, -- dont save config for this element if true.
 
         flag = properties.flag
@@ -244,6 +246,48 @@ function Dropdown.new(tab, properties)
         ZIndex = 5,
         Parent = self.top,
     }, { ImageColor3 = "ContentColor" })
+
+    local actionOffset = 43
+    for index, action in self.actions do
+        local callback = action.callback or action.Callback or function() end
+        local text = action.text or action.Text
+        local icon = action.icon or action.Icon
+        local width = if text then math.max(30, #tostring(text) * 8 + 14) else 30
+        local button = self.window:Create("TextButton", {
+            AnchorPoint = Vector2.new(1, 0.5),
+            Position = UDim2.new(1, -actionOffset, 0.5, 0),
+            Size = UDim2.fromOffset(width, 28),
+            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+            BackgroundTransparency = 0.94,
+            BorderSizePixel = 0,
+            Text = if text then locale.t(tostring(text)) else "",
+            TextSize = 13,
+            ZIndex = 20 + index,
+            AutoButtonColor = false,
+            Parent = self.top,
+        }, { BackgroundColor3 = "DropdownHighlight", TextColor3 = "ContentColor", FontFace = "Font" })
+        self.window:Create("UICorner", { CornerRadius = UDim.new(0, 7), Parent = button })
+        if icon then
+            self.window:Create("ImageLabel", {
+                AnchorPoint = Vector2.new(0.5, 0.5),
+                Position = UDim2.fromScale(0.5, 0.5),
+                Size = UDim2.fromOffset(15, 15),
+                BackgroundTransparency = 1,
+                Image = icon,
+                ZIndex = 21 + index,
+                Parent = button,
+            }, { ImageColor3 = "ContentColor" })
+        end
+        self.window:ConnectFor(self, button.MouseButton1Click, function()
+            hapticEngine.click()
+            self.window:_runGuarded(self, callback, self:_callbackValue())
+        end)
+        actionOffset += width + 5
+    end
+    if actionOffset > 43 then
+        self.selectedLabel.Position = UDim2.new(1, -actionOffset, 0.5, 0)
+        self.selectedLabel.Size = UDim2.fromOffset(math.max(70, 210 - actionOffset), 15)
+    end
 
     -- Covers only the header, so option clicks in the open panel below don't hit it.
     self.interact = self.window:Create("TextButton", {
@@ -635,6 +679,8 @@ function Dropdown.new(tab, properties)
     if self.description then
         self.descriptor = require(script.Parent.descriptor).new(self.tab, { description = self.description })
     end
+
+    self.window:_wireHoverDescription(self)
 
     return self
 end

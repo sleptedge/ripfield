@@ -2247,6 +2247,80 @@ function Window:_wireElementHover(element)
     end)
 end
 
+function Window:_wireHoverDescription(element)
+    local content = element.hoverdescription
+    if not content or content == "" then
+        return
+    end
+
+    local target = element.interact or element.main
+    self:ConnectFor(element, target.MouseEnter, function()
+        if not self:_interactive() then
+            return
+        end
+
+        if self._hoverDescription then
+            self:DestroySubtree(self._hoverDescription)
+        end
+
+        local mouse = variables.userInputService:GetMouseLocation()
+        local frame = self:Create("Frame", {
+            AutomaticSize = Enum.AutomaticSize.Y,
+            Position = UDim2.fromOffset(mouse.X + 12, mouse.Y + 12),
+            Size = UDim2.fromOffset(280, 0),
+            BorderSizePixel = 0,
+            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+            ZIndex = 200,
+            Parent = self.screenGui,
+        }, { BackgroundColor3 = "ElementBackground" })
+        self._hoverDescription = frame
+        self:Create("UICorner", { CornerRadius = UDim.new(0, 8), Parent = frame })
+        self:Create("UIStroke", {
+            Transparency = self.theme.ElementStrokeTransparency,
+            Color = self.theme.ElementStroke,
+            Parent = frame,
+        })
+        self:Create("UIPadding", {
+            PaddingTop = UDim.new(0, 9),
+            PaddingBottom = UDim.new(0, 9),
+            PaddingLeft = UDim.new(0, 11),
+            PaddingRight = UDim.new(0, 11),
+            Parent = frame,
+        })
+        self:Create("TextLabel", {
+            AutomaticSize = Enum.AutomaticSize.Y,
+            Size = UDim2.new(1, 0, 0, 0),
+            BackgroundTransparency = 1,
+            Text = locale.t(content),
+            TextSize = 14,
+            TextWrapped = true,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            TextYAlignment = Enum.TextYAlignment.Top,
+            ZIndex = 201,
+            Parent = frame,
+        }, { TextColor3 = "ContentColor", FontFace = "Font" })
+
+        task.defer(function()
+            if self._hoverDescription ~= frame or not frame.Parent then
+                return
+            end
+            local camera = variables.workspace.CurrentCamera
+            local viewport = camera and camera.ViewportSize or Vector2.new(1920, 1080)
+            frame.Position = UDim2.fromOffset(
+                math.clamp(mouse.X + 12, 8, math.max(8, viewport.X - frame.AbsoluteSize.X - 8)),
+                math.clamp(mouse.Y + 12, 8, math.max(8, viewport.Y - frame.AbsoluteSize.Y - 8))
+            )
+        end)
+    end)
+
+    self:ConnectFor(element, target.MouseLeave, function()
+        if self._hoverDescription then
+            self:DestroySubtree(self._hoverDescription)
+            self._hoverDescription = nil
+        end
+    end)
+end
+
 -- run a callback with the red error-flash on failure, debounced via element._errored so a
 -- slider firing every frame flashes once. shared by every interactive element. elements whose
 -- `main` is a transparent wrapper (the dropdown) set `flashTarget` to the frame to tint.

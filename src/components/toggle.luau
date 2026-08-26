@@ -28,6 +28,7 @@ function Toggle.new(tab, properties)
         name = properties.name or properties.Name or "Switch",
         icon = properties.icon or properties.Icon,
         description = properties.description or properties.Description,
+        hoverdescription = properties.hoverdescription or properties.HoverDescription,
         forgetState = properties.forgetState or properties.ForgetState or tab.forgetState, -- dont save config for this element if true.
         compact = tab.compact or false, -- true when the host is a Row
 
@@ -57,6 +58,7 @@ function Toggle.new(tab, properties)
         self.descriptor = require(script.Parent.descriptor).new(self.tab, { description = self.description })
     end
 
+    self.window:_wireHoverDescription(self)
     return self
 end
 

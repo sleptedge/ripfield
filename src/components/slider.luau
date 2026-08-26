@@ -58,6 +58,7 @@ function Slider.new(tab, properties)
         name = properties.name or properties.Name or "Slider",
         icon = properties.icon or properties.Icon,
         description = properties.description or properties.Description,
+        hoverdescription = properties.hoverdescription or properties.HoverDescription,
         forgetState = properties.forgetState or properties.ForgetState or tab.forgetState,
 
         range = properties.range or properties.Range or { 0, 100 },
@@ -295,6 +296,7 @@ function Slider.new(tab, properties)
 
     self:_renderProgress()
 
+    self.window:_wireHoverDescription(self)
     return self
 end
 

@@ -67,6 +67,7 @@ export type GroupProps = {
 export type ButtonProps = {
     name: string?,
     description: string?,
+    hoverdescription: string?,
     icon: (string | number)?,
     callback: (() -> ())?,
 }
@@ -74,6 +75,7 @@ export type ButtonProps = {
 export type ToggleProps = {
     name: string?,
     description: string?,
+    hoverdescription: string?,
     icon: (string | number)?,
     flag: string?,
     value: boolean?,
@@ -84,6 +86,7 @@ export type ToggleProps = {
 export type SliderProps = {
     name: string?,
     description: string?,
+    hoverdescription: string?,
     icon: (string | number)?,
     flag: string?,
     range: { number }?, -- { min, max }
@@ -95,9 +98,16 @@ export type SliderProps = {
     callback: ((value: number) -> ())?,
 }
 
+export type DropdownAction = {
+    text: string?,
+    icon: (string | number)?,
+    callback: ((value: any) -> ())?,
+}
+
 export type DropdownProps = {
     name: string?,
     description: string?,
+    hoverdescription: string?,
     icon: (string | number)?,
     flag: string?,
     options: { string }?,
@@ -105,12 +115,14 @@ export type DropdownProps = {
     multiSelect: boolean?,
     placeholder: string?,
     forgetState: boolean?,
+    actions: { DropdownAction }?, -- small buttons on the right; callbacks receive the current selection
     callback: ((value: any) -> ())?,
 }
 
 export type InputProps = {
     name: string?,
     description: string?,
+    hoverdescription: string?,
     icon: (string | number)?,
     flag: string?,
     value: string?,
@@ -124,6 +136,7 @@ export type InputProps = {
 export type KeybindProps = {
     name: string?,
     description: string?,
+    hoverdescription: string?,
     icon: (string | number)?,
     flag: string?,
     value: (EnumItem | string)?, -- an Enum.KeyCode / mouse button, or a KeyCode name
@@ -138,6 +151,7 @@ export type KeybindProps = {
 export type ColorPickerProps = {
     name: string?,
     description: string?,
+    hoverdescription: string?,
     icon: (string | number)?,
     flag: string?,
     color: Color3?, -- initial colour (accepts a hex string too)
@@ -149,6 +163,7 @@ export type ColorPickerProps = {
 export type StatProps = {
     name: string?,
     description: string?,
+    hoverdescription: string?,
     icon: (string | number)?,
     prefix: string?,
     suffix: string?,
@@ -225,6 +240,9 @@ export type Slider = Moveable & {
 export type Dropdown = Moveable & {
     value: { string }, -- always stored pruned to the current options, even single-select
     Set: (self: Dropdown, value: string | { string }, skipCallback: boolean?) -> (),
+    Refresh: (self: Dropdown, options: { string }, keepSelection: boolean?) -> (),
+    Add: (self: Dropdown, option: string) -> (),
+    Remove: (self: Dropdown, option: string) -> (),
 }
 
 export type Input = Moveable & {

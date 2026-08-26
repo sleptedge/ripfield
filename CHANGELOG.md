@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+## 1.2.2 - 2026-08-26
+
+### Added
+
+- Controls can show `hoverdescription` help without permanently taking up another row. Regular
+  descriptions still work when the text really should stay visible.
+- Dropdowns can have small action buttons on the right. Pick the thing first, then click the action.
+  Much harder to teleport somewhere because you fat-fingered the list now.
+
+### Fixed
+
+- Filled in the dropdown handle methods that already existed but somehow never made it into the
+  public types. Yeah, missed those.
+
 ## 1.2.1 - 2026-08-26
 
 ### Fixed

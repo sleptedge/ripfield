@@ -145,6 +145,35 @@ return function()
             dropdown:Remove("Green")
             expect(dropdownValue).to.equal(nil)
 
+            local actionValue
+            local actionDropdown = first:CreateDropdown({
+                name = "Action Choice",
+                options = { "Dock" },
+                value = "Dock",
+                hoverdescription = "Pick, then act",
+                actions = {
+                    {
+                        text = "Go",
+                        callback = function(value)
+                            actionValue = value
+                        end,
+                    },
+                },
+            })
+            expect(actionDropdown.selectedLabel.Position.X.Offset < -43).to.equal(true)
+            for _, child in actionDropdown.top:GetChildren() do
+                if child:IsA("TextButton") and child.Text == "Go" then
+                    child.MouseButton1Click:Fire()
+                end
+            end
+            expect(actionValue).to.equal("Dock")
+            window.hidden = false
+            window.animating = false
+            actionDropdown.interact.MouseEnter:Fire()
+            expect(window._hoverDescription).to.be.ok()
+            actionDropdown.interact.MouseLeave:Fire()
+            expect(window._hoverDescription).to.equal(nil)
+
             -- a user icon may be a rbxassetid string, not just a bare number
             local stringIcon = first:CreateToggle({
                 name = "StringIcon",

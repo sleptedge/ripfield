@@ -75,15 +75,16 @@ existing public API.
 
 ## Controls
 
-Every control is created from a tab. Common properties are `name`, `description`, `icon`, `flag`,
-`forgetState`, and `callback`, where applicable.
+Every control is created from a tab. Common properties are `name`, `description`, `hoverdescription`,
+`icon`, `flag`, `forgetState`, and `callback`, where applicable. Use `description` for help that should
+always occupy a row and `hoverdescription` for a tooltip.
 
 | Method | Important properties | Returned handle |
 | --- | --- | --- |
 | `CreateButton` | `callback` | movable button |
 | `CreateToggle` / `CreateSwitch` | `value`, `flag`, `callback` | `Set(value, skipCallback?)` |
 | `CreateSlider` | `range`, `increment`, `value`, `suffix`, `minimal` | `Set(value, skipCallback?)` |
-| `CreateDropdown` | `options`, `value`, `multiSelect`, `placeholder` | `Set(value, skipCallback?)` |
+| `CreateDropdown` | `options`, `value`, `multiSelect`, `placeholder`, `actions` | `Set`, `Refresh`, `Add`, `Remove` |
 | `CreateInput` | `value`, `placeholder`, `numeric`, `clearOnFocus` | `Set(value, skipCallback?)` |
 | `CreateKeybind` | `value`, `hold`, `holdThreshold`, `onChanged` | `Set(value, skipChanged?)` |
 | `CreateColorPicker` | `color`, `alpha` | `Set(color)`, `SetAlpha(alpha)` |

@@ -46,6 +46,7 @@ function Input.new(tab, properties)
         name = properties.name or properties.Name or "Input",
         icon = properties.icon or properties.Icon,
         description = properties.description or properties.Description,
+        hoverdescription = properties.hoverdescription or properties.HoverDescription,
         forgetState = properties.forgetState or properties.ForgetState or tab.forgetState,
         placeholder = properties.placeholder or properties.Placeholder or "",
         numeric = properties.numeric or properties.Numeric or false, -- strip anything not a number
@@ -211,6 +212,7 @@ function Input.new(tab, properties)
 
     self:_sizeBox(false) -- initial hug, no animation
 
+    self.window:_wireHoverDescription(self)
     return self
 end
 

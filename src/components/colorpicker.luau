@@ -218,6 +218,7 @@ function ColorPicker.new(tab, properties)
         name = properties.name or properties.Name or "Color Picker",
         icon = properties.icon or properties.Icon,
         description = properties.description or properties.Description,
+        hoverdescription = properties.hoverdescription or properties.HoverDescription,
         forgetState = properties.forgetState or properties.ForgetState or tab.forgetState,
 
         callback = properties.callback or properties.Callback or function() end,
@@ -322,6 +323,7 @@ function ColorPicker.new(tab, properties)
 
     self:_render("instant")
 
+    self.window:_wireHoverDescription(self)
     return self
 end
 

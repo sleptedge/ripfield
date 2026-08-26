@@ -80,6 +80,7 @@ function Statistic.new(tab, properties)
         name = properties.name or properties.Name or "Statistic",
         icon = properties.icon or properties.Icon,
         description = properties.description or properties.Description,
+        hoverdescription = properties.hoverdescription or properties.HoverDescription,
 
         value = if (properties.value or properties.Value) ~= nil then (properties.value or properties.Value) else 0,
         -- did we start with a real value, or is the displayed number just a placeholder?
@@ -122,6 +123,7 @@ function Statistic.new(tab, properties)
         end
     end
 
+    self.window:_wireHoverDescription(self)
     return self
 end
 
