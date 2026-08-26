@@ -714,10 +714,8 @@ end
 function Popup:_measureBox(box)
     box = if typeof(box) == "table" then box else { title = tostring(box) }
     local hasIcon = box.icon ~= nil and box.icon ~= 0 and box.icon ~= ""
-    local textWidth = self._contentWidth
-        - boxWidthInset
-        - boxSidePad * 2
-        - (if hasIcon then boxIconSize + boxIconGap else 0)
+    local iconInset = if hasIcon then boxIconSize + boxIconGap else 0
+    local textWidth = self._contentWidth - boxWidthInset - boxSidePad * 2 - iconInset
 
     local titleH = functions.textHeight(
         self.window.theme.TitleFont,
