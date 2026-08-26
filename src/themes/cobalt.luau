@@ -9,17 +9,16 @@
 -- differ from default and inherits the rest (corners, fonts, toggle/field behaviour) from it.
 return {
     WindowColor = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(9, 14, 27)),
-        ColorSequenceKeypoint.new(0.9999, Color3.fromRGB(16, 23, 42)),
-        ColorSequenceKeypoint.new(1, Color3.fromRGB(22, 31, 55)),
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(8, 12, 22)),
+        ColorSequenceKeypoint.new(0.58, Color3.fromRGB(14, 20, 35)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(19, 27, 47)),
     }),
     ShadowColor = Color3.fromRGB(6, 8, 20),
 
     ElementStroke = Color3.fromRGB(42, 56, 88),
     ElementGradient = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(22, 30, 52)),
-        ColorSequenceKeypoint.new(0.9999, Color3.fromRGB(26, 36, 61)),
-        ColorSequenceKeypoint.new(1, Color3.fromRGB(27, 37, 63)),
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(25, 34, 56)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(19, 27, 46)),
     }),
     ElementStrokeGradient = ColorSequence.new({
         ColorSequenceKeypoint.new(0, Color3.fromRGB(56, 66, 104)),
@@ -39,6 +38,9 @@ return {
     AccentColor = Color3.fromRGB(62, 132, 246),
     AccentStroke = Color3.fromRGB(113, 178, 255),
     SurfaceStroke = Color3.fromRGB(116, 149, 210),
+    ScrollbarColor = Color3.fromRGB(132, 165, 224),
+    HoverOverlayColor = Color3.fromRGB(105, 151, 235),
+    HoverOverlayTransparency = 0.94,
 
     ToggleKnobOff = Color3.fromRGB(196, 206, 232), -- cool off-knob on the dark track
 

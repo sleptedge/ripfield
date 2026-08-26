@@ -37,6 +37,7 @@ export type WindowProps = {
     locale: string?, -- pin the UI language; defaults to the player's Roblox locale
     translations: Translations?, -- language tables keyed by locale id; the easy, table-first path
     translator: Translator?, -- resolve copy yourself; falls back to the built-in tables
+    autoShow: boolean?, -- set false to finish building a large window before calling Show manually
     performanceMode: boolean?, -- prebuild every tab but render only the active page; tab changes are instant
     autosaveDelay: number?, -- seconds to coalesce rapid autoSave changes; performance mode defaults to 0.3
 }

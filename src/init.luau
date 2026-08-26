@@ -166,7 +166,7 @@ function ripfield:CreateWindow(properties: types.WindowProps): types.Window
         task.wait(0.5)
         -- the window can be unloaded inside this delay; showing it then would fire
         -- saved-config callbacks and build toasts on destroyed instances
-        if not built.unloaded then
+        if properties.autoShow ~= false and not built.unloaded then
             built:Show()
         end
     end)

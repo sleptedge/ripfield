@@ -514,12 +514,11 @@ function Window.new(properties)
         AutomaticCanvasSize = Enum.AutomaticSize.X,
         CanvasSize = UDim2.new(0, 0, 0, 0),
         ScrollBarThickness = 2,
-        ScrollBarImageTransparency = 0.65,
-        ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255),
+        ScrollBarImageTransparency = 0.55,
         ScrollingDirection = Enum.ScrollingDirection.X,
 
         Parent = self.main,
-    })
+    }, { ScrollBarImageColor3 = "ScrollbarColor" })
 
     self.tabListLayout = self:Create("UIListLayout", {
         Padding = UDim.new(0, 7),
@@ -544,7 +543,7 @@ function Window.new(properties)
         AnchorPoint = Vector2.new(1, 0.5),
         AutomaticSize = Enum.AutomaticSize.X,
         Size = UDim2.fromOffset(0, 24),
-        Position = UDim2.new(1, -20, 0.5, 0),
+        Position = UDim2.new(1, -16, 0.5, 0),
         BackgroundTransparency = 1,
 
         Parent = self.topbar,
@@ -867,12 +866,17 @@ function Window:Notify(properties)
     if not self.notifications then
         self.notifications = self:Create("Frame", {
             Name = "Notifications",
-            Size = UDim2.new(0, 300, 0, 800),
-            Position = UDim2.new(1, -20, 1, -20),
+            Size = UDim2.new(1, -24, 1, -24),
+            Position = UDim2.new(1, -12, 1, -12),
             AnchorPoint = Vector2.new(1, 1),
             BackgroundTransparency = 1,
 
             Parent = self.screenGui,
+        })
+
+        self:Create("UISizeConstraint", {
+            MaxSize = Vector2.new(300, 800),
+            Parent = self.notifications,
         })
 
         self:Create("UIListLayout", {
@@ -907,13 +911,18 @@ function Window:Toast(properties)
     if not container then
         container = self:Create("Frame", {
             Name = "Toasts",
-            Size = UDim2.new(0, maxToastWidth, 1, -24),
+            Size = UDim2.new(1, -24, 1, -24),
             Position = if isTop then UDim2.new(0.5, 0, 0, 12) else UDim2.new(0.5, 0, 1, -12),
             AnchorPoint = if isTop then Vector2.new(0.5, 0) else Vector2.new(0.5, 1),
             BackgroundTransparency = 1,
             ZIndex = constants.zIndex.toast,
 
             Parent = self.screenGui,
+        })
+
+        self:Create("UISizeConstraint", {
+            MaxSize = Vector2.new(maxToastWidth, 10000),
+            Parent = container,
         })
 
         self:Create("UIListLayout", {
@@ -2181,18 +2190,16 @@ function Window:_flashResult(element, ok)
     end)
 end
 
--- Additive white hover-brighten overlay filling an element (fill colour comes from the gradient).
--- Tween its BackgroundTransparency 1 -> ~0.97 on hover.
+-- Theme-coloured hover wash filling an element (the base fill still comes from its gradient).
 function Window:CreateHoverOverlay(parent)
     local overlay = self:Create("Frame", {
-        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
         BackgroundTransparency = 1,
         Size = UDim2.fromScale(1, 1),
         BorderSizePixel = 0,
         ZIndex = 1,
 
         Parent = parent,
-    })
+    }, { BackgroundColor3 = "HoverOverlayColor" })
 
     self:Create("UICorner", {
         Parent = overlay,
@@ -2219,7 +2226,9 @@ function Window:_wireElementHover(element)
             :Play()
         variables.tweenService:Create(element.title, info, { TextColor3 = theme.ElementTextHoverColor }):Play()
         if element.hoverOverlay then
-            variables.tweenService:Create(element.hoverOverlay, info, { BackgroundTransparency = 0.97 }):Play()
+            variables.tweenService
+                :Create(element.hoverOverlay, info, { BackgroundTransparency = theme.HoverOverlayTransparency })
+                :Play()
         end
     end)
 

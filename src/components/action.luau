@@ -34,7 +34,7 @@ function Action.new(window, properties)
         BorderSizePixel = 0,
 
         LayoutOrder = -(properties.order or 0),
-        Size = UDim2.fromOffset(24, 24),
+        Size = UDim2.fromOffset(34, 34),
         BackgroundTransparency = 1,
 
         Parent = self.window.actionContainer,

@@ -25,6 +25,7 @@ local window = Ripfield:CreateWindow({
     name = "My Hub",
     subtitle = "Ready",
     theme = "default",
+    autoShow = false, -- finish building first, then call window:Show()
     performanceMode = true,
     autosaveDelay = 0.3,
     configuration = {
@@ -66,6 +67,7 @@ main:CreateSlider({
 
 enabled:Set(false)
 window:Notify({ title = "Ripfield", content = "Loaded", duration = 4 })
+window:Show()
 ```
 
 Property names are documented in camelCase. PascalCase property keys are also accepted by the

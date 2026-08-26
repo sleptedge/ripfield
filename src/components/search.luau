@@ -75,11 +75,11 @@ end
 local function setPillShown(window, shown, info)
     variables.tweenService
         :Create(window.searchPill, info, {
-            BackgroundTransparency = if shown then 0.9 else 1,
+            BackgroundTransparency = if shown then window.theme.FieldTransparency else 1,
         })
         :Play()
-    variables.tweenService:Create(window.searchStroke, info, { Transparency = if shown then 0.85 else 1 }):Play()
-    variables.tweenService:Create(window.searchShadow, info, { Transparency = if shown then 0.92 else 1 }):Play()
+    variables.tweenService:Create(window.searchStroke, info, { Transparency = if shown then 0.72 else 1 }):Play()
+    variables.tweenService:Create(window.searchShadow, info, { Transparency = if shown then 0.9 else 1 }):Play()
     variables.tweenService:Create(window.searchIcon, info, { ImageTransparency = if shown then 0.65 else 1 }):Play()
     variables.tweenService:Create(window.searchInput, info, { TextTransparency = if shown then 0.2 else 1 }):Play()
 end
@@ -239,12 +239,13 @@ function search.build(window)
         BackgroundTransparency = 1,
         AutomaticCanvasSize = Enum.AutomaticSize.Y,
         CanvasSize = UDim2.new(0, 0, 0, 0),
-        ScrollBarThickness = 0,
+        ScrollBarThickness = 3,
+        ScrollBarImageTransparency = 0.65,
         ScrollingDirection = Enum.ScrollingDirection.Y,
         LayoutOrder = 2000, -- sits after every tab page
 
         Parent = window.elements,
-    })
+    }, { ScrollBarImageColor3 = "ScrollbarColor" })
 
     window:Create("UIListLayout", {
         Padding = UDim.new(0, 7),
@@ -287,7 +288,6 @@ function search.build(window)
         AnchorPoint = Vector2.new(0.5, 0),
         Position = UDim2.new(0.5, 0, 0, 66),
         Size = UDim2.new(1, -35, 0, 35),
-        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
         BorderSizePixel = 0,
         ZIndex = 10,
 
@@ -295,7 +295,7 @@ function search.build(window)
         Visible = false,
 
         Parent = window.main,
-    })
+    }, { BackgroundColor3 = "FieldBackground" })
 
     window:Create("UICorner", {
         CornerRadius = UDim.new(1, 0),
@@ -303,23 +303,21 @@ function search.build(window)
     })
 
     window.searchStroke = window:Create("UIStroke", {
-        Color = Color3.fromRGB(255, 255, 255),
         Thickness = 1,
 
         Transparency = 1, -- shown = 0.85
 
         Parent = window.searchPill,
-    })
+    }, { Color = "SurfaceStroke" })
 
     window.searchShadow = window:Create("UIShadow", {
         BlurRadius = UDim.new(0, 20),
-        Color = Color3.fromRGB(255, 255, 255),
         ZIndex = -1,
 
         Transparency = 1, -- shown = 0.92
 
         Parent = window.searchPill,
-    })
+    }, { Color = "FieldGlow" })
 
     window.searchIcon = window:Create("ImageLabel", {
         Image = "rbxassetid://" .. tostring(constants.icons.search),

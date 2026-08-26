@@ -35,7 +35,6 @@ local sidePadding = 22
 local topPadding = 24
 local bottomPadding = 22
 local regionGap = 16 -- between header, content and footer
-local innerWidth = cardWidth - sidePadding * 2
 
 local titleSize = 18
 local subtitleSize = 14
@@ -45,7 +44,6 @@ local headerIconGap = 12 -- icon to title-column
 local maxContentHeight = 300 -- content region scrolls past this
 -- the content scrolls, so it clips its children; this inset keeps box strokes off the edge
 local contentInset = 4
-local contentWidth = innerWidth - contentInset * 2
 
 -- Box (changelog card) metrics.
 local boxSidePad = 16
@@ -126,6 +124,11 @@ end
 function Popup:_build()
     local window = self.window
     local hasIcon = self.icon ~= nil and self.icon ~= 0 and self.icon ~= ""
+    local camera = variables.workspace.CurrentCamera
+    local viewport = camera and camera.ViewportSize or Vector2.new(cardWidth + 32, 600)
+    self._cardWidth = math.max(1, math.min(cardWidth, viewport.X - 32))
+    self._innerWidth = math.max(1, self._cardWidth - sidePadding * 2)
+    self._contentWidth = math.max(1, self._innerWidth - contentInset * 2)
 
     -- Own ScreenGui so the modal sits above the window, toasts and notifications alike.
     self.screenGui = window:Create("ScreenGui", {
@@ -161,7 +164,7 @@ function Popup:_build()
         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.new(0.5, 0, 0.5, 14), -- drifts up to centre on show
-        Size = UDim2.fromOffset(cardWidth, 0),
+        Size = UDim2.fromOffset(self._cardWidth, 0),
         AutomaticSize = Enum.AutomaticSize.Y,
         Active = true, -- clicks on the card never reach the backdrop
         BorderSizePixel = 0,
@@ -215,6 +218,8 @@ function Popup:_build()
     -- card grows a few pixels a moment after it shows, as the brand font's glyphs finish loading
     -- and AutomaticSize re-measures the text - reads as the font "settling" after the reveal.
     local headerHeight = self:_measureHeader(hasIcon)
+    local fixedHeight = topPadding + headerHeight + buttonHeight + bottomPadding + regionGap * 2 + contentInset * 2
+    self._maxContentHeight = math.max(40, math.min(maxContentHeight, viewport.Y - 32 - fixedHeight))
     self:_buildHeader(hasIcon, headerHeight)
     local contentHeight = self:_buildContent()
     self:_buildFooter()
@@ -226,7 +231,7 @@ function Popup:_build()
         + buttonHeight
         + bottomPadding
         + regionGap * (regions - 1)
-    self.card.Size = UDim2.fromOffset(cardWidth, cardHeight)
+    self.card.Size = UDim2.fromOffset(self._cardWidth, cardHeight)
     self.card.AutomaticSize = Enum.AutomaticSize.None
 
     -- dismiss surfaces
@@ -358,7 +363,7 @@ function Popup:_buildContent()
 
     local window = self.window
     local measured = if self.boxes and #self.boxes > 0 then self:_measureBoxes() else self:_measureText()
-    local viewHeight = math.min(measured, maxContentHeight) + contentInset * 2
+    local viewHeight = math.min(measured, self._maxContentHeight) + contentInset * 2
 
     local content = window:Create("ScrollingFrame", {
         Name = "Content",
@@ -368,14 +373,13 @@ function Popup:_buildContent()
         CanvasSize = UDim2.new(0, 0, 0, 0),
         AutomaticCanvasSize = Enum.AutomaticSize.Y,
         ScrollBarThickness = 4,
-        ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255),
         ScrollingDirection = Enum.ScrollingDirection.Y,
         LayoutOrder = 2,
 
         ScrollBarImageTransparency = 1, -- shown = 0.8, fades in with the rest
 
         Parent = self.card,
-    })
+    }, { ScrollBarImageColor3 = "ScrollbarColor" })
     self:_fade(content, "ScrollBarImageTransparency", 0.8)
 
     -- the scroll clips, so pad the region to keep box strokes off the edge
@@ -689,7 +693,7 @@ end
 -- fixed layout use the same numbers. Everything is sized off these, so nothing re-measures on
 -- screen once the font's glyphs land. Returns the header row height.
 function Popup:_measureHeader(hasIcon)
-    local textWidth = innerWidth - (if hasIcon then headerIconSize + headerIconGap else 0)
+    local textWidth = self._innerWidth - (if hasIcon then headerIconSize + headerIconGap else 0)
     self._titleH = functions.textHeight(self.window.theme.Font, titleSize, locale.resolve(self.title), textWidth)
     self._subH = if self.subtitle and self.subtitle ~= ""
         then functions.textHeight(self.window.theme.Font, subtitleSize, locale.resolve(self.subtitle), textWidth)
@@ -701,7 +705,7 @@ end
 -- Height a paragraph needs at the content region's width.
 function Popup:_measureText()
     -- measure what actually renders: the label shows the translated string
-    return functions.textHeight(self.window.theme.Font, contentSize, locale.resolve(self.content), contentWidth)
+    return functions.textHeight(self.window.theme.Font, contentSize, locale.resolve(self.content), self._contentWidth)
 end
 
 -- Every measurement one box needs: its frame height (content + padding), its title and
@@ -710,7 +714,10 @@ end
 function Popup:_measureBox(box)
     box = if typeof(box) == "table" then box else { title = tostring(box) }
     local hasIcon = box.icon ~= nil and box.icon ~= 0 and box.icon ~= ""
-    local textWidth = contentWidth - boxWidthInset - boxSidePad * 2 - (if hasIcon then boxIconSize + boxIconGap else 0)
+    local textWidth = self._contentWidth
+        - boxWidthInset
+        - boxSidePad * 2
+        - (if hasIcon then boxIconSize + boxIconGap else 0)
 
     local titleH = functions.textHeight(
         self.window.theme.TitleFont,

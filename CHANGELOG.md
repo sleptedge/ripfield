@@ -4,6 +4,15 @@
 
 ### Changed
 
+- Gave the whole interface a calmer, cleaner pass. Surfaces have more depth, corners are less
+  bubbly, and the cobalt theme is easier to read without turning everything bright blue.
+- Search finally uses the active theme instead of painting a nearly invisible white bar on light
+  themes. Scrollable areas are easier to spot too.
+- Top-bar buttons are less fiddly to click, and popups, notices, and quick messages now leave room
+  around the edge of smaller screens. This was overdue.
+- Large windows can now wait until every tab is built before opening. No more watching the last
+  page finish assembling after the menu is already on screen.
+
 - Finished the Ripfield rename across the runtime, UI defaults, types, tests, tooling, repository
   templates, and generated project names. The public `CreateWindow` and control API is unchanged,
   but old brand-named globals and aliases are intentionally gone.

@@ -58,6 +58,9 @@ return {
 
     PlaceholderColor = Color3.fromRGB(138, 144, 150),
     SurfaceStroke = Color3.fromRGB(204, 210, 214),
+    ScrollbarColor = Color3.fromRGB(116, 126, 136),
+    HoverOverlayColor = Color3.fromRGB(0, 150, 184),
+    HoverOverlayTransparency = 0.93,
 
     -- Light secondary button (dark text via adaptive contrast) instead of a dark blob on white.
     NeutralButton = Color3.fromRGB(224, 230, 234),

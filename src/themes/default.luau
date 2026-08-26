@@ -9,31 +9,29 @@
 local variables = require(script.Parent.Parent.utility.variables)
 
 return {
-    CornerRoundness = UDim.new(0, 20),
+    CornerRoundness = UDim.new(0, 16),
     WindowColor = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(10, 10, 10)),
-        ColorSequenceKeypoint.new(0.9999, Color3.fromRGB(25, 25, 25)),
-        ColorSequenceKeypoint.new(1, Color3.fromRGB(35, 35, 35)),
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(12, 13, 15)),
+        ColorSequenceKeypoint.new(0.62, Color3.fromRGB(20, 21, 24)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(25, 26, 30)),
     }),
-    ShadowColor = Color3.fromRGB(20, 20, 20),
+    ShadowColor = Color3.fromRGB(4, 5, 7),
 
-    ElementStroke = Color3.fromRGB(35, 35, 35),
+    ElementStroke = Color3.fromRGB(48, 50, 56),
     -- Per-element fill gradient (applied over a white base)
     ElementGradient = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(30, 30, 30)),
-        ColorSequenceKeypoint.new(0.9999, Color3.fromRGB(35, 35, 35)),
-        ColorSequenceKeypoint.new(1, Color3.fromRGB(35, 35, 35)),
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(31, 32, 36)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(26, 27, 31)),
     }),
     -- Subtle sheen tint for gradient strokes (dropdown cards). Kept lighter than the fill so
     -- the edge still reads low in the window, where the bg gradient is itself ~35.
     ElementStrokeGradient = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(48, 48, 48)),
-        ColorSequenceKeypoint.new(0.9999, Color3.fromRGB(58, 58, 58)),
-        ColorSequenceKeypoint.new(1, Color3.fromRGB(48, 48, 48)),
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(64, 66, 74)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(46, 48, 54)),
     }),
     TabColor = Color3.fromRGB(255, 255, 255),
-    TabBackground = ColorSequence.new(Color3.fromRGB(50, 50, 50), Color3.fromRGB(35, 35, 35)),
-    TabStroke = ColorSequence.new(Color3.fromRGB(95, 95, 95), Color3.fromRGB(50, 50, 50)),
+    TabBackground = ColorSequence.new(Color3.fromRGB(53, 55, 62), Color3.fromRGB(37, 39, 44)),
+    TabStroke = ColorSequence.new(Color3.fromRGB(104, 107, 118), Color3.fromRGB(58, 60, 68)),
     SliderBackground = Color3.fromRGB(47, 47, 47),
     SliderBackgroundHover = Color3.fromRGB(60, 60, 60),
     SliderProgress = ColorSequence.new(Color3.fromRGB(0, 170, 127), Color3.fromRGB(0, 134, 98)),
@@ -50,7 +48,7 @@ return {
     ElementStrokeTransparency = 0,
     ElementStrokeHoverTransparency = 0,
     ElementStrokeHover = Color3.fromRGB(50, 50, 50),
-    ElementCornerRadius = UDim.new(0, 12),
+    ElementCornerRadius = UDim.new(0, 10),
     ElementTextHoverColor = Color3.fromRGB(255, 255, 255),
     TitlingColor = Color3.fromRGB(255, 255, 255),
 
@@ -78,6 +76,9 @@ return {
 
     PlaceholderColor = Color3.fromRGB(178, 178, 178), -- input/search hint text
     SurfaceStroke = Color3.fromRGB(255, 255, 255), -- faint rim on window/field/toast/popup surfaces
+    ScrollbarColor = Color3.fromRGB(190, 194, 204),
+    HoverOverlayColor = Color3.fromRGB(255, 255, 255),
+    HoverOverlayTransparency = 0.94,
 
     -- Popup neutral (secondary) button: rest, hover and edge.
     NeutralButton = Color3.fromRGB(38, 38, 38),
